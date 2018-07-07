@@ -1,8 +1,9 @@
 import smtplib
 from app import app
-from flask import render_template, url_for, request, redirect
+from flask import render_template, url_for, request, redirect, Blueprint
+from werkzeug.security import check_password_hash, generate_password_hash
 from datetime import datetime as dt
-from app.models import BlogPosts, db
+from app.models import BlogPosts, db, Administrator
 from app.utils import sendmail
 
 
@@ -38,12 +39,14 @@ def contact():
     else:
         return render_template('contact.html')
 
+bp = Blueprint('admin', __name__, url_prefix='/admin')
 
-@app.route('/login/add')
+
+@bp.route('/add')
 def add():
     return render_template('add.html')
 
-@app.route('/login/addpost', methods = ['GET','POST'])
+@bp.route('/addpost', methods = ['POST'])
 def addpost():
     title = request.form.get('title')
     subtitle = request.form.get('subtitle')
@@ -56,5 +59,7 @@ def addpost():
 
     return redirect(url_for('index'))
 
-
+@bp.route('/', methods=['GET', 'POST'])
+def login():
+    return render_template('login.html')
 
