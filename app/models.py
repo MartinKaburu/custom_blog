@@ -17,4 +17,5 @@ class Administrator(db.Model):
     email = db.Column(db.String(32), unique = True, nullable = False)
     username = db.Column(db.String(32), unique = True, nullable = False)
     password = db.Column(db.String(256), nullable = False)
+    isadmin = db.Column(db.Boolean, default=False)
 
