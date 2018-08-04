@@ -1,1 +1,0 @@
-This is a simple blog running over Flask micro framework
